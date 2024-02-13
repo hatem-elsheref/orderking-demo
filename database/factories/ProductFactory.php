@@ -23,12 +23,14 @@ class ProductFactory extends Factory
 
         $image = UploadedFile::fake()->image('test_image.jpg');
 
+        $path = $image->store('/');
+
         return [
             'name'        => fake()->word(),
             'description' => fake()->sentence(),
             'tags'        => 'a,b,c',
             'category_id' => Category::query()->inRandomOrder()->first(),
-            'picture'     => $image->path()
+            'picture'     => $path
         ];
     }
 }
