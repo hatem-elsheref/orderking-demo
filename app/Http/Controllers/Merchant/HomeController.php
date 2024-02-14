@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Merchant;
 
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use App\Services\OrderService;
 use App\Services\UserService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class HomeController extends Controller
@@ -28,15 +31,25 @@ class HomeController extends Controller
 
     public function customers() :View
     {
-        $users = $this->userService->listingCustomers(5);
+        return $this->view('users');
+    }
 
-        return $this->view('users', compact('users'));
+    public function customersAjax(Request $request) :JsonResponse
+    {
+        $resource = $this->userService->listingAllCustomers($request);
+
+        return response()->json([
+            'draw'                 => intval($request->draw),
+            'iTotalRecords'        => $resource['totalRecords'],
+            'iTotalDisplayRecords' => $resource['totalRecordWithFilter'],
+            'aaData'               => UserResource::collection($resource['data'])
+        ]);
     }
 
     public function orders() :View
     {
         $orders = $this->orderService->paginate(5);
 
-        return $this->view('home', compact('orders'));
+        return $this->view('orders', compact('orders'));
     }
 }

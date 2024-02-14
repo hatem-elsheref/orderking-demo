@@ -29,7 +29,6 @@
                                             <span class="badge bg-success">Approved</span>
                                         @else
                                             <span class="badge bg-danger">Not Approved</span>
-
                                         @endif
                                     </td>
                                 </tr>

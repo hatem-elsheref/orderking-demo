@@ -35,8 +35,8 @@ Route::prefix('merchant-dashboard')->middleware(['is_merchant'])->group(function
     Route::middleware(['auth', 'merchant.change'])->group(function (){
         Route::get('/'          , [HomeController::class, 'index'])->name('merchant.dashboard');
         Route::get('/users'     , [HomeController::class, 'customers'])->name('merchant.users');
+        Route::get('/users/ajax', [HomeController::class, 'customersAjax'])->name('merchant.users.ajax');
         Route::get('/orders'    , [HomeController::class, 'orders'])->name('merchant.orders');
-        Route::get('/my-orders' , [HomeController::class, 'orders'])->name('merchant.my.orders');
     });
 
 });

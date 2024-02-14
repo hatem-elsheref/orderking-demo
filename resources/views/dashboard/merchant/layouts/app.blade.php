@@ -68,7 +68,11 @@
                         @endif
                     @else
                         <li class="nav-item">
-                            <a class="nav-link" href="/home">Home</a>
+                            @if(is_tenant())
+                                <a class="nav-link" href="/merchant-dashboard">Merchant Dashboard</a>
+                            @else
+                                <a class="nav-link" href="/home">Home</a>
+                            @endif
                         </li>
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -93,9 +97,7 @@
         </div>
     </nav>
 
-    <main class="py-4">
-        @yield('content')
-    </main>
+    <main class="py-4"> @yield('content') </main>
 </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>

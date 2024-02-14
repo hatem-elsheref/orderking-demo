@@ -18,36 +18,8 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($users as $user)
-                                <tr>
-                                    <td>{{$user->id}}</td>
-                                    <td>{{$user->name}}</td>
-                                    <td>{{$user->email}}</td>
-                                    <td>
-                                        @if($user->status)
-                                            <span class="badge bg-success">Approved</span>
-                                        @else
-                                            <span class="badge bg-danger">Not Approved</span>
-
-                                        @endif
-                                    </td>
-                                    <td>
-
-                                    @if(!$user->status)
-                                        <form action="" method="post">
-                                            @csrf
-                                            <input type="hidden" name="customer_id" value="{{$user->id}}">
-                                            <button class="btn btn-sm btn-primary">Approve</button>
-                                        </form>
-                                    @endif
-                                    </td>
-                                </tr>
-                            @endforeach
-
                             </tbody>
                         </table>
-                        {!! $users->render('vendor.pagination.bootstrap-4') !!}
-
                     </div>
                 </div>
             </div>
@@ -57,7 +29,17 @@
 @section('js')
     <script>
         new DataTable('#ajax-table', {
-            ajax: 'data/arrays.txt'
+            columnDefs: [ { orderable: false, targets: [3,4] }],
+            ajax: '{{route('merchant.users.ajax')}}',
+            processing: true,
+            serverSide: true,
+            'columns': [
+                { data: 'id' },
+                { data: 'name' },
+                { data: 'email' },
+                { data: 'status' },
+                { data: 'action' }
+            ]
         });
     </script>
 @endsection

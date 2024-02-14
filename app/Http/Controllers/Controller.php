@@ -15,7 +15,7 @@ class Controller extends BaseController
     {
         return is_null(config('merchant_id'));
     }
-    protected function view($view, $data, $isAbsolute = false) :View
+    protected function view($view, $data = [], $isAbsolute = false) :View
     {
         return $isAbsolute ? view($view, $data) : view(($this->isAdmin() ? 'dashboard.admin.' : 'dashboard.merchant.') . $view, $data);
     }
