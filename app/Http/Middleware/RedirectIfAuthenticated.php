@@ -22,7 +22,7 @@ class RedirectIfAuthenticated
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
                 $user = Auth::guard($guard)->user();
-                return redirect($user->isMerchant() ? RouteServiceProvider::MERCHANT_HOME : RouteServiceProvider::HOME);
+                return redirect($user->isMerchant() ? RouteServiceProvider::MERCHANT_HOME : ($user->isCustomer() ? RouteServiceProvider::CUSTOMER_HOME : RouteServiceProvider::HOME));
             }
         }
 

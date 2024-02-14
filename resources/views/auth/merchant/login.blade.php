@@ -8,7 +8,7 @@
                 <div class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('merchant.login') }}">
+                    <form method="POST" action="{{$isMerchantOwner ? route('merchant.login') : route('customer.login') }}">
                         @csrf
 
                         <div class="row mb-3">
@@ -57,11 +57,21 @@
                                     {{ __('Login') }}
                                 </button>
 
-                                @if (Route::has('merchant.password.request'))
-                                    <a class="btn btn-link" href="{{ route('merchant.password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
+                                @if($isMerchantOwner)
+                                    @if (Route::has('merchant.password.request'))
+                                        <a class="btn btn-link" href="{{ route('merchant.password.request') }}">
+                                            {{ __('Forgot Your Password?') }}
+                                        </a>
+                                    @endif
+                                    @else
+                                    @if (Route::has('customer.password.request'))
+                                        <a class="btn btn-link" href="{{ route('customer.password.request') }}">
+                                            {{ __('Forgot Your Password?') }}
+                                        </a>
+                                    @endif
                                 @endif
+
+
                             </div>
                         </div>
                     </form>

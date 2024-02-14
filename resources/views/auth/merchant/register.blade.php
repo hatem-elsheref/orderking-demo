@@ -1,4 +1,5 @@
-@extends('layouts.app')
+@extends('dashboard.merchant.layouts.app')
+
 
 @section('content')
 <div class="container">
@@ -8,7 +9,7 @@
                 <div class="card-header">{{ __('Register') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('customer.register') }}">
                         @csrf
 
                         <div class="row mb-3">

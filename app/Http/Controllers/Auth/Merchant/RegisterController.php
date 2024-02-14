@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\Auth\Merchant;
 
+use App\Enums\RoleType;
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use App\Models\User;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class RegisterController extends Controller
 {
@@ -28,7 +32,9 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = RouteServiceProvider::MERCHANT_HOME;
+
+    private $isMerchantOwner = true;
 
     /**
      * Create a new controller instance.
@@ -38,6 +44,8 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+        $this->isMerchantOwner = config('is_merchant');
+        $this->redirectTo = $this->isMerchantOwner ? RouteServiceProvider::MERCHANT_HOME : RouteServiceProvider::CUSTOMER_HOME;
     }
 
     /**
@@ -49,8 +57,8 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'name'     => ['required', 'string', 'max:255'],
+            'email'    => ['required', 'string', 'email', 'max:255', Rule::unique('users', 'email')->where('merchant_id', config('merchant_id'))],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -59,14 +67,18 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\Models\User
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+        return User::query()->create([
+            'name'           => $data['name'],
+            'email'          => $data['email'],
+            'password'       => Hash::make($data['password']),
+            'merchant_id'    => config('merchant_id'),
+            'status'         => false,
+            'type'           => RoleType::CUSTOMER->value,
+            'role_id'        => Role::query()->where('is_core', true)->where('name', 'customer')->first()->id,
         ]);
     }
 

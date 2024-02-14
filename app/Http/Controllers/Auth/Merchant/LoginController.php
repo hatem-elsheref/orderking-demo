@@ -28,6 +28,8 @@ class LoginController extends Controller
      */
     protected $redirectTo = RouteServiceProvider::MERCHANT_HOME;
 
+    private $isMerchantOwner = true;
+
     /**
      * Create a new controller instance.
      *
@@ -36,12 +38,15 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+        $this->isMerchantOwner = config('is_merchant');
+        $this->redirectTo = $this->isMerchantOwner ? RouteServiceProvider::MERCHANT_HOME : RouteServiceProvider::CUSTOMER_HOME;
     }
 
 
     public function showLoginForm()
     {
-        return view('auth.merchant.login');
+        $isMerchantOwner = $this->isMerchantOwner;
+        return view('auth.merchant.login', compact('isMerchantOwner'));
     }
 
 }

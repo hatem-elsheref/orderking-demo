@@ -79,6 +79,11 @@ class User extends Authenticatable
         return $this->type === RoleType::STORE->value;
     }
 
+    public function isCustomer() :bool
+    {
+        return $this->type === RoleType::CUSTOMER->value;
+    }
+
     public function scopeCustomer($query) :void
     {
         $query->where('type', RoleType::CUSTOMER->value);

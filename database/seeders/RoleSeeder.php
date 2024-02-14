@@ -31,13 +31,11 @@ class RoleSeeder extends Seeder
         $storeRole = Role::query()->create([
             'name'    => 'store_admin',
             'is_core' => 1,
-
         ]);
 
         $customerRole = Role::query()->create([
             'name'    => 'customer',
             'is_core' => 1,
-
         ]);
 
         $adminRole->permissions()->attach($adminPermissions);

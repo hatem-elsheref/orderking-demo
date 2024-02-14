@@ -52,4 +52,11 @@ class HomeController extends Controller
 
         return $this->view('orders', compact('orders'));
     }
+
+    public function myAccount(Request $request) :View
+    {
+        $orders = $this->orderService->myOrders($request,5);
+        $me = $request->user();
+        return $this->view('account', compact('orders', 'me'));
+    }
 }
