@@ -17,6 +17,8 @@ return new class extends Migration
             $table->foreign('merchant_id')->references('id')->on('merchants')->cascadeOnUpdate()->cascadeOnDelete();
             $table->unsignedInteger('type')->comment("(represents user type) => 1 = super admin, 2 = store, 3 = customer")->default(\App\Enums\RoleType::CUSTOMER->value);
             $table->boolean('status')->default(false);
+            $table->dropUnique(['email']);
+            $table->unique(['email', 'merchant_id']);
         });
     }
 
@@ -26,7 +28,15 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            //
+            $table->dropUnique(['email', 'merchant_id']);
+            $table->unique(['email']);
+            $table->dropColumn('status');
+            $table->dropColumn('type');
+            $table->dropForeign(['merchant_id']);
+            $table->dropForeign(['role_id']);
+            $table->dropColumn('merchant_id');
+            $table->dropColumn('role_id');
+
         });
     }
 };

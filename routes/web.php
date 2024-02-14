@@ -1,8 +1,6 @@
 <?php
 
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ProductController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,25 +14,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-Route::domain('{store}.' . config('app.central_domain'))->group(function (){
-    Route::middleware('identifyTenantBySubDomain')->group(function (){
-        Route::get('/users/{user}', [UserController::class, 'show']);
-    });
-});
-
-
-
-
-
-Auth::routes();
-
-Route::prefix('dashboard')->middleware('auth')->group(function (){
-   Route::resource('products'     , ProductController::class);
-   Route::resource('categories'   , UserController::class);
-});
-
-
+// for super admin
+Auth::routes(['register' => false, 'verify' => false, 'confirm' => false]);
 Route::view('/', 'welcome');
+Route::view('/home', 'home');
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+//
+//
+//Route::middleware(['auth'])->group(function (){
+////    Route::get('/'          , [HomeController::class, 'index'])->name('merchant.dashboard');
+//    Route::get('/users'     , [HomeController::class, 'users'])->name('merchant.users');
+//    Route::get('/orders'    , [HomeController::class, 'orders'])->name('merchant.orders');
+//    Route::get('/my-orders' , [HomeController::class, 'orders'])->name('merchant.orders');
+//});
+

@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Models\Domain;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 use Symfony\Component\HttpFoundation\Response;
 
 class IdentifyTenantBySubDomain
@@ -27,6 +28,9 @@ class IdentifyTenantBySubDomain
         if (!$merchant->merchant) abort(403, 'Please Contact With Support To Check Your Subscription!!');
 
         config()->set('merchant_id', $merchant->merchant_id);
+        config()->set('merchant_domain', $subDomain);
+
+        URL::defaults(['store' => $subDomain]);
 
         return $next($request);
     }

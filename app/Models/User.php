@@ -2,15 +2,19 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enums\RoleType;
+use App\Models\Scopes\TenantScope;
+use App\Traits\HasTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasTenant;
 
     /**
      * The attributes that are mass assignable.
@@ -48,12 +52,26 @@ class User extends Authenticatable
         'status'   => 'boolean'
     ];
 
+    public function merchant() :BelongsTo
+    {
+        return $this->belongsTo(Merchant::class, 'merchant_id');
+    }
+
+    public function stores() :HasMany
+    {
+        return $this->hasMany(Merchant::class, 'owner_id');
+    }
+
+    public function isMerchant() :bool
+    {
+        return $this->type === RoleType::STORE->value;
+    }
+
+
     protected static function boot()
     {
         parent::boot();
 
-        self::addGlobalScope('merchant', function ($query){
-            $query->where('merchant_id', config('merchant_id'));
-        });
+        static::addGlobalScope(new TenantScope());
     }
 }

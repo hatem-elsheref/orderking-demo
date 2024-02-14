@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Scopes\TenantScope;
+use App\Models\User;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -18,6 +20,7 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     public const HOME = '/home';
+    public const MERCHANT_HOME = '/merchant-dashboard';
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
@@ -33,8 +36,17 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix('api')
                 ->group(base_path('routes/api.php'));
 
+            Route::middleware(['web', 'identifyTenantBySubDomain'])
+                ->domain('{store}.' . config('app.central_domain'))
+                ->group(base_path('routes/tenant.php'));
+
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
+
+
+            Route::bind('user', function ($id){
+                return User::query()->withoutGlobalScopes()->findOrFail($id);
+            });
         });
     }
 }

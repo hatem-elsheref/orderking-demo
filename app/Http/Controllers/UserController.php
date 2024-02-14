@@ -8,7 +8,6 @@ class UserController extends Controller
 {
     public function show($store, User $user)
     {
-        return $user;
     }
 
 }

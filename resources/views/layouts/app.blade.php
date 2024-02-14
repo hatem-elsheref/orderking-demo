@@ -37,16 +37,33 @@
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
                         @guest
-                            @if (Route::has('login'))
+                            @if(is_tenant())
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                    <a class="nav-link" href="{{ route('merchant.login') }}">{{ __('Login As Owner') }}</a>
                                 </li>
-                            @endif
+                                @if (Route::has('customer.login'))
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('customer.login') }}">{{ __('Login') }}</a>
+                                    </li>
+                                @endif
 
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
+                                @if (Route::has('customer.register'))
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('customer.register') }}">{{ __('Register') }}</a>
+                                    </li>
+                                @endif
+                                @else
+                                @if (Route::has('login'))
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                    </li>
+                                @endif
+
+                                @if (Route::has('register'))
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    </li>
+                                @endif
                             @endif
                         @else
                             <li class="nav-item dropdown">

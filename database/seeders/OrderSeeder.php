@@ -17,16 +17,17 @@ class OrderSeeder extends Seeder
     {
         foreach (Merchant::query()->pluck('id')->toArray() as $merchant) {
             $users = User::query()->where('merchant_id', $merchant)->where('type', RoleType::CUSTOMER->value)->inRandomOrder()->pluck('id')->toArray();
-            foreach (range(1, 10) as $order){
-                Order::query()->create([
-                    'user_id'     => $users[rand(0, count($users) - 1)],
-                    'merchant_id' => $merchant,
-                    'status'      => 'new',
-                    'description' => 'Order #' . $order . ' / ' . fake()->sentence,
-                    'amount'      => fake()->numberBetween(10, 500),
-                    'tax'         => fake()->numberBetween(1, 50)
-                ]);
-            }
+            if (!empty($users))
+                foreach (range(1, 10) as $order){
+                    Order::query()->create([
+                        'user_id'     => $users[rand(0, count($users) - 1)],
+                        'merchant_id' => $merchant,
+                        'status'      => 'new',
+                        'description' => 'Order #' . $order . ' / ' . fake()->sentence,
+                        'amount'      => fake()->numberBetween(10, 500),
+                        'tax'         => fake()->numberBetween(1, 50)
+                    ]);
+                }
         }
 
     }

@@ -2,7 +2,9 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\ChangeToNormalSituation;
 use App\Http\Middleware\IdentifyTenantBySubDomain;
+use App\Http\Middleware\IsMerchant;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -66,6 +68,8 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'identifyTenantBySubDomain' => IdentifyTenantBySubDomain::class,
+        'is_merchant'               => IsMerchant::class,
+        'merchant.change'           => ChangeToNormalSituation::class,
     ];
 
     protected $middlewarePriority = [
@@ -74,12 +78,14 @@ class Kernel extends HttpKernel
         \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
         \Illuminate\Session\Middleware\StartSession::class,
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+        IdentifyTenantBySubDomain::class,
+        IsMerchant::class,
         \Illuminate\Contracts\Auth\Middleware\AuthenticatesRequests::class,
         \Illuminate\Routing\Middleware\ThrottleRequests::class,
         \Illuminate\Routing\Middleware\ThrottleRequestsWithRedis::class,
         \Illuminate\Contracts\Session\Middleware\AuthenticatesSessions::class,
-        IdentifyTenantBySubDomain::class,
         \Illuminate\Routing\Middleware\SubstituteBindings::class,
         \Illuminate\Auth\Middleware\Authorize::class,
+        ChangeToNormalSituation::class,
     ];
 }
