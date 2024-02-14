@@ -18,6 +18,8 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    'central_domain' => env('APP_DOMAIN', 'orderking.local'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

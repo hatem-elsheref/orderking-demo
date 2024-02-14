@@ -47,4 +47,13 @@ class User extends Authenticatable
         'password' => 'hashed',
         'status'   => 'boolean'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        self::addGlobalScope('merchant', function ($query){
+            $query->where('merchant_id', config('merchant_id'));
+        });
+    }
 }
