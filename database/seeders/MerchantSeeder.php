@@ -26,8 +26,8 @@ class MerchantSeeder extends Seeder
             'type'        => RoleType::STORE->value,
         ])->create();
 
-        foreach (User::query()->whereNull('merchant_id')->where('role_id', $storeRole->id)->where('type', RoleType::STORE->value)->pluck('id')->toArray() as  $owner)
-            Merchant::factory()->count(1)->create([
+        foreach (User::query()->withoutGlobalScopes()->whereNull('merchant_id')->where('role_id', $storeRole->id)->where('type', RoleType::STORE->value)->pluck('id')->toArray() as  $owner)
+            Merchant::factory()->create([
                 'name'        => sprintf('Store %s', $owner),
                 'owner_id'    => $owner,
             ]);

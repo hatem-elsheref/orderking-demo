@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\User;
+use App\Http\Controllers\Admin\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,14 +17,13 @@ use Illuminate\Support\Facades\Route;
 // for super admin
 Auth::routes(['register' => false, 'verify' => false, 'confirm' => false]);
 Route::view('/', 'welcome');
-Route::view('/home', 'home');
 
-//
-//
-//Route::middleware(['auth'])->group(function (){
-////    Route::get('/'          , [HomeController::class, 'index'])->name('merchant.dashboard');
-//    Route::get('/users'     , [HomeController::class, 'users'])->name('merchant.users');
-//    Route::get('/orders'    , [HomeController::class, 'orders'])->name('merchant.orders');
-//    Route::get('/my-orders' , [HomeController::class, 'orders'])->name('merchant.orders');
-//});
+Route::middleware(['auth'])->group(function (){
+    Route::get('/home'      , [HomeController::class, 'index'])->name('admin.dashboard');
+    Route::get('/users'     , [HomeController::class, 'customers'])->name('admin.users');
+    Route::get('/admins'    , [HomeController::class, 'admins'])->name('admin.admins');
+    Route::get('/merchants' , [HomeController::class, 'merchants'])->name('admin.merchants');
+    Route::get('/orders'    , [HomeController::class, 'orders'])->name('admin.orders');
+    Route::get('/my-orders' , [HomeController::class, 'orders'])->name('admin.orders');
+});
 

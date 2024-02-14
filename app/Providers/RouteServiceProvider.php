@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Models\Scopes\TenantScope;
+use App\Models\Scopes\UserTenantScope;
 use App\Models\User;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;

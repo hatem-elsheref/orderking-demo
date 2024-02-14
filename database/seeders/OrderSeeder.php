@@ -16,7 +16,7 @@ class OrderSeeder extends Seeder
     public function run(): void
     {
         foreach (Merchant::query()->pluck('id')->toArray() as $merchant) {
-            $users = User::query()->where('merchant_id', $merchant)->where('type', RoleType::CUSTOMER->value)->inRandomOrder()->pluck('id')->toArray();
+            $users = User::query()->withoutGlobalScopes()->where('merchant_id', $merchant)->where('type', RoleType::CUSTOMER->value)->inRandomOrder()->pluck('id')->toArray();
             if (!empty($users))
                 foreach (range(1, 10) as $order){
                     Order::query()->create([

@@ -4,7 +4,7 @@ use App\Http\Controllers\Auth\Merchant\ForgotPasswordController;
 use App\Http\Controllers\Auth\Merchant\LoginController;
 use App\Http\Controllers\Auth\Merchant\RegisterController;
 use App\Http\Controllers\Auth\Merchant\ResetPasswordController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Merchant\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,9 +34,9 @@ Route::prefix('merchant-dashboard')->middleware(['is_merchant'])->group(function
 
     Route::middleware(['auth', 'merchant.change'])->group(function (){
         Route::get('/'          , [HomeController::class, 'index'])->name('merchant.dashboard');
-        Route::get('/users'     , [HomeController::class, 'users'])->name('merchant.users');
+        Route::get('/users'     , [HomeController::class, 'customers'])->name('merchant.users');
         Route::get('/orders'    , [HomeController::class, 'orders'])->name('merchant.orders');
-        Route::get('/my-orders' , [HomeController::class, 'orders'])->name('merchant.orders');
+        Route::get('/my-orders' , [HomeController::class, 'orders'])->name('merchant.my.orders');
     });
 
 });
