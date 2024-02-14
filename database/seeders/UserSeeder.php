@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
         $customerRole = Role::query()->where(['name' => 'customer', 'is_core' => 1])->first();
 
         foreach (Merchant::query()->pluck('id')->toArray() as $merchant)
-            User::factory()->count(100)->sequence(fn(Sequence $sequence) => [
+            User::factory()->count(10)->sequence(fn(Sequence $sequence) => [
                 'name'        => sprintf('Customer %s', $sequence->index),
                 'email'       => sprintf('customer%s@merchant%s.com', $sequence->index, $merchant),
                 'role_id'     => $customerRole->id,

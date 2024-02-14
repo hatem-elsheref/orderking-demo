@@ -10,7 +10,7 @@ class Domain extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['merchant_id', 'name'];
+    protected $fillable = ['merchant_id', 'domain'];
 
     public function merchant() :BelongsTo
     {

@@ -23,8 +23,8 @@ class OrderSeeder extends Seeder
                     'merchant_id' => $merchant,
                     'status'      => 'new',
                     'description' => 'Order #' . $order . ' / ' . fake()->sentence,
-                    'amount'      => fake()->randomNumber(10, 500),
-                    'tax'         => fake()->randomNumber(1, 50)
+                    'amount'      => fake()->numberBetween(10, 500),
+                    'tax'         => fake()->numberBetween(1, 50)
                 ]);
             }
         }

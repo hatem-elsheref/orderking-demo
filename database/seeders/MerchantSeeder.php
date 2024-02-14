@@ -18,7 +18,7 @@ class MerchantSeeder extends Seeder
     {
         $storeRole = Role::query()->where(['name' => 'store_admin', 'is_core' => 1])->first();
 
-        User::factory()->count(30)->sequence(fn(Sequence $sequence) => [
+        User::factory()->count(2)->sequence(fn(Sequence $sequence) => [
             'name'        => sprintf('Merchant %s', $sequence->index),
             'email'       => sprintf('merchant%s@orderking.com', $sequence->index),
             'role_id'     => $storeRole->id,
@@ -31,5 +31,6 @@ class MerchantSeeder extends Seeder
                 'name'        => sprintf('Store %s', $owner),
                 'owner_id'    => $owner,
             ]);
+
     }
 }
