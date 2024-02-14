@@ -14,6 +14,6 @@ class OrderService
 
     public function paginate($length = 5) :LengthAwarePaginator
     {
-        return Order::query()->paginate($length);
+        return Order::query()->with(['customer' => fn($query) => $query->withoutGlobalScopes(), 'merchant'])->paginate($length);
     }
 }

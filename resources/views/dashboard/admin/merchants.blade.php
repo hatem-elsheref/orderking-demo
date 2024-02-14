@@ -14,6 +14,7 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Store/Domain</th>
+                                <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -23,6 +24,9 @@
                                     <td>{{$user->name}}</td>
                                     <td>{{$user->email}}</td>
                                     <td>{{$user->store->name}} / {{sprintf('%s.%s', $user->store->domain->domain, config('app.central_domain'))}}</td>
+                                    <td>
+                                        <a href="{{route('admin.merchant.users', $user->store->id)}}" class="btn btn-sm btn-primary">Show Users</a>
+                                    </td>
                                 </tr>
                             @endforeach
 

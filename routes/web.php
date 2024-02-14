@@ -19,11 +19,11 @@ Auth::routes(['register' => false, 'verify' => false, 'confirm' => false]);
 Route::view('/', 'welcome');
 
 Route::middleware(['auth'])->group(function (){
-    Route::get('/home'      , [HomeController::class, 'index'])->name('admin.dashboard');
-    Route::get('/users'     , [HomeController::class, 'customers'])->name('admin.users');
-    Route::get('/admins'    , [HomeController::class, 'admins'])->name('admin.admins');
-    Route::get('/merchants' , [HomeController::class, 'merchants'])->name('admin.merchants');
-    Route::get('/orders'    , [HomeController::class, 'orders'])->name('admin.orders');
-    Route::get('/my-orders' , [HomeController::class, 'orders'])->name('admin.orders');
+    Route::get('/home'                 , [HomeController::class, 'index'])->name('admin.dashboard');
+    Route::get('/users'                , [HomeController::class, 'customers'])->name('admin.users');
+    Route::get('/users/{merchant}'     , [HomeController::class, 'customersOfMerchant'])->name('admin.merchant.users');
+    Route::get('/admins'               , [HomeController::class, 'admins'])->name('admin.admins');
+    Route::get('/merchants'            , [HomeController::class, 'merchants'])->name('admin.merchants');
+    Route::get('/orders'               , [HomeController::class, 'orders'])->name('admin.orders');
 });
 

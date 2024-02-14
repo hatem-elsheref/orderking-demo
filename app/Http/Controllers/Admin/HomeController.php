@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\RoleType;
 use App\Http\Controllers\Controller;
+use App\Models\Merchant;
 use App\Services\OrderService;
 use App\Services\UserService;
 use Illuminate\View\View;
@@ -36,6 +37,13 @@ class HomeController extends Controller
         return $this->view('users', compact('users'));
     }
 
+    public function customersOfMerchant(Merchant $merchant) :View
+    {
+        $users = $this->userService->listingCustomersOf($merchant,5);
+
+        return $this->view('users', compact('users', 'merchant'));
+    }
+
     public function merchants() :View
     {
         $users = $this->userService->listingMerchants(5);
@@ -54,6 +62,6 @@ class HomeController extends Controller
     {
         $orders = $this->orderService->paginate(5);
 
-        return $this->view('home', compact('orders'));
+        return $this->view('orders', compact('orders'));
     }
 }

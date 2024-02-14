@@ -18,6 +18,11 @@ class UserService
         return User::query()->tenant()->customer()->with('merchant')->paginate($length);
     }
 
+    public function listingCustomersOf($merchant, $length = 5) :LengthAwarePaginator
+    {
+        return User::query()->tenant()->customer()->where('merchant_id', $merchant->id)->with('merchant')->paginate($length);
+    }
+
     public function listingMerchants($length = 5) :LengthAwarePaginator
     {
         return User::query()->tenant()->merchant()->with('store.domain')->paginate($length);
