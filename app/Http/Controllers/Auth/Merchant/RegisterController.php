@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth\Merchant;
 
 use App\Enums\RoleType;
+use App\Events\NewCustomerRegistered;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\User;
@@ -68,7 +69,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::query()->create([
+        $customer =  User::query()->create([
             'name'           => $data['name'],
             'email'          => $data['email'],
             'password'       => Hash::make($data['password']),
@@ -77,6 +78,10 @@ class RegisterController extends Controller
             'type'           => RoleType::CUSTOMER->value,
             'role_id'        => Role::query()->where('is_core', true)->where('name', 'customer')->first()->id,
         ]);
+
+        if ($customer) event(new NewCustomerRegistered());
+
+        return $customer;
     }
 
     public function showRegistrationForm()

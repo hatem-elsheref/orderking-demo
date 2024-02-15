@@ -94,12 +94,7 @@
     <script>
         const socket = io(document.location.origin + ':5000');
         const $status = document.getElementById('');
-        socket.on("connect", () => {
-            socket.emit('subscribe', 'customer.approved')
-        });
-        socket.on("disconnect", () => {
-            socket.emit('subscribe', 'customer.approved')
-        });
+        socket.on("connect", () => {});
 
         socket.on("customer.{{$me->id}}.approved", (data) => {
             if(data.status){

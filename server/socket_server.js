@@ -25,19 +25,11 @@ const main = async () => {
         io.emit(`customer.${data.data.data.customer}.approved`, { status: true });
     });
 
+    await redisClientSub.subscribe('customer.registered', (message) => {
+        io.emit(`new.customer`, { status: true });
+    });
+
     io.on("connection",  (socket) => {
-        socket.on("subscribe", async (channel) => {
-            // await redisClientSub.subscribe(channel, (message) => {
-            //     let data = JSON.parse(message);
-            //     io.emit(`customer.${data.data.data.customer}.approved`, { status: true });
-            // });
-        });
-
-        socket.on("unsubscribe", async (channel) => {
-            await redisClientSub.unsubscribe(channel);
-        });
-
-
         socket.on("customer.approve", async (message) => {
             await redisClientPub.publish('customer.approving', message);
         });

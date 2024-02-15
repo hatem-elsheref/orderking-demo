@@ -29,7 +29,7 @@
 @section('js')
     <script>
 
-        new DataTable('#ajax-table', {
+        let table = new DataTable('#ajax-table', {
             columnDefs: [ { orderable: false, targets: [3,4] }],
             ajax: '{{route('merchant.users.ajax')}}',
             processing: true,
@@ -49,6 +49,9 @@
         const socket = io(document.location.origin + ':5000');
         const $status = document.getElementById('customer-status');
         socket.on('connect', () => {});
+        socket.on('new.customer', (data) => {
+            table.ajax.reload( null, false );
+        });
         function approve(event) {
            socket.emit('customer.approve', JSON.stringify({
                customer: event.getAttribute('data-id')
