@@ -28,6 +28,7 @@
 @endsection
 @section('js')
     <script>
+
         new DataTable('#ajax-table', {
             columnDefs: [ { orderable: false, targets: [3,4] }],
             ajax: '{{route('merchant.users.ajax')}}',
@@ -42,4 +43,17 @@
             ]
         });
     </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.4/socket.io.js" integrity="sha512-tE1z+95+lMCGwy+9PnKgUSIeHhvioC9lMlI7rLWU0Ps3XTdjRygLcy4mLuL0JAoK4TLdQEyP0yOl/9dMOqpH/Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        const socket = io(document.location.origin + ':5000');
+        const $status = document.getElementById('customer-status');
+        socket.on('connect', () => {});
+        function approve(event) {
+           socket.emit('customer.approve', JSON.stringify({
+               customer: event.getAttribute('data-id')
+           }))
+        }
+    </script>
+
 @endsection

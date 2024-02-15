@@ -27,7 +27,7 @@
                                     @if($me->status)
                                         <span class="badge bg-success">Approved</span>
                                     @else
-                                        <span class="badge bg-danger">Not Approved</span>
+                                        <span class="badge bg-danger" id="customer-status">Not Approved</span>
                                     @endif
                                 </td>
                             </tr>
@@ -87,4 +87,25 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.4/socket.io.js" integrity="sha512-tE1z+95+lMCGwy+9PnKgUSIeHhvioC9lMlI7rLWU0Ps3XTdjRygLcy4mLuL0JAoK4TLdQEyP0yOl/9dMOqpH/Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        const socket = io(document.location.origin + ':5000');
+        const $status = document.getElementById('');
+        socket.on("connect", () => {
+            socket.emit('subscribe', 'customer.approved')
+        });
+        socket.on("disconnect", () => {
+            socket.emit('subscribe', 'customer.approved')
+        });
+
+        socket.on("customer.{{$me->id}}.approved", (data) => {
+            if(data.status){
+                $('#customer-status').html('Approved').removeClass('bg-danger').addClass('bg-success')
+            }
+        });
+
+    </script>
 @endsection

@@ -32,9 +32,8 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::MERCHANT_HOME;
+    protected $redirectTo = RouteServiceProvider::CUSTOMER_HOME;
 
-    private $isMerchantOwner = true;
 
     /**
      * Create a new controller instance.
@@ -44,8 +43,6 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
-        $this->isMerchantOwner = config('is_merchant');
-        $this->redirectTo = $this->isMerchantOwner ? RouteServiceProvider::MERCHANT_HOME : RouteServiceProvider::CUSTOMER_HOME;
     }
 
     /**

@@ -39,8 +39,8 @@ class UserService
 
         return [
             'data' => $data,
-            'totalRecordWithFilter' => count($data),
-            'totalRecords' => $totalRecords
+            'totalRecordWithFilter' => $totalRecords,
+            'totalRecords' => count($data)
         ];
     }
 

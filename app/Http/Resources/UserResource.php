@@ -20,7 +20,7 @@ class UserResource extends JsonResource
             'email'     => $this->email,
             'merchant'  => $this->merchant->name,
             'status'    => $this->status ? '<span class="badge bg-success">Approved</span>' : '<span class="badge bg-danger">Not Approved</span>',
-            'action'    => !$this->status ? '<button class="btn btn-sm btn-success" data-id="'.$this->id.'">Approved</button>' : '',
+            'action'    => !$this->status ? '<button onclick="approve(this)" class="btn btn-sm btn-success" data-id="'.$this->id.'">Approved</button>' : '',
         ];
     }
 }
