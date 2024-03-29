@@ -14,6 +14,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('test', function (\Illuminate\Http\Request $request){
+    $items = explode(',', $request->props);
+    $data = [
+        'columns'   => [],
+        'relations' => [],
+    ];
+
+    foreach ($items as $column){
+        if (!str($column)->contains('.')){
+            $data['columns'][] = $column;
+        }else{
+            relations($data['relations'], $column);
+        }
+    }
+
+    return $data;
+});
+
 // for super admin
 Auth::routes(['register' => false, 'verify' => false, 'confirm' => false]);
 Route::view('/', 'welcome');
